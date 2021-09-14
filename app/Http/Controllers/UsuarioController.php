@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
 {
@@ -34,5 +35,11 @@ class UsuarioController extends Controller
         $response = Http::get('');
         return $response->body();
         // return view('Consultas.Empresa',compact('response'));
+    }
+
+    public function registerUsuario(Request $request)
+    {
+        $data = $request->all();
+        Usuario::create($data);
     }
 }

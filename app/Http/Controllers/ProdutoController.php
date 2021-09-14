@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Produto;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Request;
 
 class ProdutoController extends Controller
 {
@@ -34,5 +35,11 @@ class ProdutoController extends Controller
         $response = Http::get('');
         return $response->body();
         // return view('Consultas.Empresa',compact('response'));
+    }
+
+    public function registerProduto(Request $request)
+    {
+        $data = $request->all();
+        Produto::create($data);
     }
 }

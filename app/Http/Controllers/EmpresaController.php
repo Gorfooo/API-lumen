@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Empresa;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Request;
 
 class EmpresaController extends Controller
 {
@@ -29,5 +30,11 @@ class EmpresaController extends Controller
         $response = Http::get('');
         return $response->body();
         // return view('Consultas.Empresa',compact('response'));
+    }
+
+    public function registerEmpresa(Request $request)
+    {
+        $data = $request->all();
+        Empresa::create($data);
     }
 }

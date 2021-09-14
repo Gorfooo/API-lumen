@@ -16,3 +16,9 @@ $router->group(['prefix' => 'consultas'], function () use ($router) {
     $router->get('produto', 'ProdutoController@showProdutos');
     $router->get('empresa', 'UsuarioController@showUsuarios');
 });
+
+$router->group(['prefix' => 'cadastros'], function () use ($router) {
+    $router->post('empresa', 'EmpresaController@registerEmpresa');
+    $router->post('produto', 'ProdutoController@registerProduto');
+    $router->post('empresa', 'UsuarioController@registerUsuario');
+});
