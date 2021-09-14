@@ -40,6 +40,7 @@ class ProdutoController extends Controller
     public function registerProduto(Request $request)
     {
         $data = $request->all();
-        Produto::create($data);
+        dd($data);
+        // Produto::create($data);
     }
 }

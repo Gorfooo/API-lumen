@@ -40,6 +40,7 @@ class UsuarioController extends Controller
     public function registerUsuario(Request $request)
     {
         $data = $request->all();
-        Usuario::create($data);
+        dd($data);
+        // Usuario::create($data);
     }
 }

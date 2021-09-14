@@ -35,6 +35,7 @@ class EmpresaController extends Controller
     public function registerEmpresa(Request $request)
     {
         $data = $request->all();
-        Empresa::create($data);
+        dd($data);
+        // Empresa::create($data);
     }
 }

@@ -20,5 +20,5 @@ $router->group(['prefix' => 'consultas'], function () use ($router) {
 $router->group(['prefix' => 'cadastros'], function () use ($router) {
     $router->post('empresa', 'EmpresaController@registerEmpresa');
     $router->post('produto', 'ProdutoController@registerProduto');
-    $router->post('empresa', 'UsuarioController@registerUsuario');
+    $router->post('usuario', 'UsuarioController@registerUsuario');
 });
