@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Carbon;
 
 class Empresas extends Migration
 {
@@ -14,7 +15,7 @@ class Empresas extends Migration
             $table->string('nome');
             $table->string('telefone');
             $table->string('cnpj',14);
-            $table->timestamps();
+            $table->date('created_at')->default(Carbon::now());;
         });
     }
 

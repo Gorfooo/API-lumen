@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Empresa;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Validator;
+use Throwable;
 
 class EmpresaController extends Controller
 {
@@ -27,15 +29,74 @@ class EmpresaController extends Controller
 
     public function showEmpresas()
     {
-        $response = Http::get('');
-        return $response->body();
+        // return Http::dd()->get('https://viacep.com.br/ws/01001000/json/');
+        $response = Http::get('https://viacep.com.br/ws/01001000/json/');
+        // $response = $this->client->get('https://viacep.com.br/ws/01001000/json/');
+        
+        return $response;
         // return view('Consultas.Empresa',compact('response'));
     }
 
     public function registerEmpresa(Request $request)
     {
         $data = $request->all();
-        dd($data);
-        // Empresa::create($data);
+        
+        if(!$this->validar_cnpj($data['cnpj'])){
+            return response()->json(['error'=>'CNPJ inválido'],400);
+        }
+
+        $validator = Validator::make($data, [
+            'nome' => 'required|max:255',
+            'telefone' => 'required|max:255',
+            'cnpj' => 'required|max:14',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()],400);
+        }
+
+        try {
+            Empresa::create($data);
+        } catch (Throwable $e) {
+            return response()->json(['error'=>'Erro na inserção'],400);
+        }
+
+        return response()->json(['success' => 'Empresa cadastrada com sucesso!']);
+    }
+
+    public function validar_cnpj($cnpj)
+    {
+        $cnpj = preg_replace('/[^0-9]/', '', (string) $cnpj);
+        
+        // Valida tamanho
+        if (strlen($cnpj) != 14)
+            return false;
+
+        // Verifica se todos os digitos são iguais
+        if (preg_match('/(\d)\1{13}/', $cnpj))
+            return false;	
+
+        // Valida primeiro dígito verificador
+        for ($i = 0, $j = 5, $soma = 0; $i < 12; $i++)
+        {
+            $soma += $cnpj[$i] * $j;
+            $j = ($j == 2) ? 9 : $j - 1;
+        }
+
+        $resto = $soma % 11;
+
+        if ($cnpj[12] != ($resto < 2 ? 0 : 11 - $resto))
+            return false;
+
+        // Valida segundo dígito verificador
+        for ($i = 0, $j = 6, $soma = 0; $i < 13; $i++)
+        {
+            $soma += $cnpj[$i] * $j;
+            $j = ($j == 2) ? 9 : $j - 1;
+        }
+
+        $resto = $soma % 11;
+
+        return $cnpj[13] == ($resto < 2 ? 0 : 11 - $resto);
     }
 }

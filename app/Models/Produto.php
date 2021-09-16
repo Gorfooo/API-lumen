@@ -9,10 +9,13 @@ class Produto extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'nome',
         'quanto',
         'ncm',
+        'usuario_id'
     ];
 
     public function usuarios(){

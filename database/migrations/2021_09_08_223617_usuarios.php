@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Carbon;
 
 class Usuarios extends Migration
 {
@@ -16,7 +17,7 @@ class Usuarios extends Migration
             $table->string('cpf',11);
             $table->unsignedBigInteger('empresa_id');
             $table->foreign('empresa_id')->references('id')->on('empresas');
-            $table->timestamps();
+            $table->date('created_at')->default(Carbon::now());;
         });
     }
 

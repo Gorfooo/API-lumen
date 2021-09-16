@@ -9,6 +9,8 @@ class Empresa extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+    
     protected $fillable = [
         'nome',
         'telefone',

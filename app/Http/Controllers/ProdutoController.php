@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Produto;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Validator;
+use Throwable;
 
 class ProdutoController extends Controller
 {
@@ -40,7 +42,24 @@ class ProdutoController extends Controller
     public function registerProduto(Request $request)
     {
         $data = $request->all();
-        dd($data);
-        // Produto::create($data);
+
+        $validator = Validator::make($data, [
+            'nome' => 'required|max:255',
+            'quanto' => 'required|numeric|between:-999999,999999',
+            'ncm' => 'required|integer|digits_between:0,8',
+            'usuario_id' => 'required|max:20|exists:usuarios,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()],400);
+        }
+
+        try {
+            Produto::create($data);
+        } catch (Throwable $e) {
+            return response()->json(['error'=>'Erro na inserção'],400);
+        }
+        
+        return response()->json(['success' => 'Produto cadastrado com sucesso!']);
     }
 }
