@@ -23,8 +23,17 @@ class UsuarioController extends Controller
         return DB::table('usuarios')
             ->join('empresas', 'usuarios.empresa_id', '=', 'empresas.id')
             ->select('usuarios.id', 'usuarios.nome', 'usuarios.telefone', 
-            'usuarios.cpf', 'empresas.cnpj', 'usuarios.created_at', 'usuarios.updated_at')
+            'usuarios.cpf', 'empresas.cnpj', 'usuarios.created_at')
             ->paginate(10);
+    }
+
+    public function allUsuario()
+    {
+        return DB::table('usuarios')
+            ->join('empresas', 'usuarios.empresa_id', '=', 'empresas.id')
+            ->select('usuarios.id', 'usuarios.nome', 'usuarios.telefone', 
+            'usuarios.cpf', 'empresas.cnpj', 'usuarios.created_at')
+            ->get();
     }
 
     public function findUsuario($id)
@@ -34,9 +43,10 @@ class UsuarioController extends Controller
 
     public function showUsuarios()
     {
-        $response = Http::get('');
-        return $response->body();
-        // return view('Consultas.Empresa',compact('response'));
+        $response = Http::get('http://b72d-200-135-40-16.ngrok.io/users/all');
+        $data = $response->object();
+
+        return view('Consultas.Usuario',compact('data'));
     }
 
     public function registerUsuario(Request $request)

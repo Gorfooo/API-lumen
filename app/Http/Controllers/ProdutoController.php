@@ -23,8 +23,17 @@ class ProdutoController extends Controller
         return DB::table('produtos')
             ->join('usuarios', 'produtos.usuario_id', '=', 'usuarios.id')
             ->select('produtos.id', 'produtos.nome', 'produtos.quanto', 'produtos.ncm', 'usuarios.cpf',
-            'produtos.created_at', 'produtos.updated_at')
+            'produtos.created_at')
             ->paginate(10);
+    }
+
+    public function allProduto()
+    {
+        return DB::table('produtos')
+            ->join('usuarios', 'produtos.usuario_id', '=', 'usuarios.id')
+            ->select('produtos.id', 'produtos.nome', 'produtos.quanto', 'produtos.ncm', 'usuarios.cpf',
+            'produtos.created_at')
+            ->get();
     }
 
     public function findProduto($id)
@@ -34,9 +43,10 @@ class ProdutoController extends Controller
 
     public function showProdutos()
     {
-        $response = Http::get('');
-        return $response->body();
-        // return view('Consultas.Empresa',compact('response'));
+        $response = Http::get('http://b72d-200-135-40-16.ngrok.io/products/all');
+        $data = $response->object();
+
+        return view('Consultas.Produto',compact('data'));
     }
 
     public function registerProduto(Request $request)

@@ -3,6 +3,9 @@
 $router->get('/', 'EmpresaController@paginatedEmpresa');
 
 $router->group(['prefix' => 'jsons'], function () use ($router) {
+    $router->get('empresa/all', 'EmpresaController@allEmpresa');
+    $router->get('produto/all', 'ProdutoController@allProduto');
+    $router->get('usuario/all', 'UsuarioController@allUsuario');
     $router->get('empresa', 'EmpresaController@paginatedEmpresa');
     $router->get('produto', 'ProdutoController@paginatedProduto');
     $router->get('usuario', 'UsuarioController@paginatedUsuario');
@@ -14,7 +17,7 @@ $router->group(['prefix' => 'jsons'], function () use ($router) {
 $router->group(['prefix' => 'consultas'], function () use ($router) {
     $router->get('empresa', 'EmpresaController@showEmpresas');
     $router->get('produto', 'ProdutoController@showProdutos');
-    $router->get('empresa', 'UsuarioController@showUsuarios');
+    $router->get('usuario', 'UsuarioController@showUsuarios');
 });
 
 $router->group(['prefix' => 'cadastros'], function () use ($router) {

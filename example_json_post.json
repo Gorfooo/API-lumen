@@ -7,16 +7,14 @@ empresa->
 produto->
 {
     "nome": "produto",
-    "quanto": "123",
+    "quanto": "11",
     "ncm": "00000000",
-    "usuario_id": "1",
-    "created_at": "2021-09-01"
+    "usuario_id": "1"
 }
 usuario->
 {
     "nome": "usuario",
     "telefone": "(49) 8888-8888",
     "cpf": "10610981927",
-    "empresa_id": "1",
-    "created_at": "2021-09-01"
+    "empresa_id": "1"
 }

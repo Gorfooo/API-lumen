@@ -16,9 +16,9 @@ class DatabaseSeeder extends Seeder
         // \App\Models\Produto::factory(10)->create();
         // \App\Models\Usuario::factory(10)->create();
 
-        Empresa::factory(10)
-            ->has(Usuario::factory(3)
-                ->has(Produto::factory(5)))
+        Empresa::factory(100)
+            ->has(Usuario::factory(5)
+                ->has(Produto::factory(10)))
                 ->create();
     }
 }

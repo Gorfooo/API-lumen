@@ -21,19 +21,25 @@
         <table class="table table-sm">
             <thead>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Id</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Quantidade</th>
+                <th scope="col">NCM</th>
+                <th scope="col">Data</th>
+                <th scope="col">Cpf</th>
               </tr>
             </thead>
             <tbody>
+              @foreach ($data as $produto)
               <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                <td>{{$produto->id}}</td>
+                <td>{{$produto->nome}}</td>
+                <td>{{$produto->quantidade}}</td>
+                <td>{{$produto->ncm}}</td>
+                <td>{{$produto->data}}</td>
+                <td>{{$produto->cpf_cadastro}}</td>
               </tr>
+              @endforeach
             </tbody>
           </table>
     </div>

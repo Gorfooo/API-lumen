@@ -22,6 +22,11 @@ class EmpresaController extends Controller
         return Empresa::paginate(30);
     }
 
+    public function allEmpresa()
+    {
+        return Empresa::all();
+    }
+
     public function findEmpresa($id)
     {
         return $this->empresa->findOrFail($id);
@@ -29,12 +34,10 @@ class EmpresaController extends Controller
 
     public function showEmpresas()
     {
-        // return Http::dd()->get('https://viacep.com.br/ws/01001000/json/');
-        $response = Http::get('https://viacep.com.br/ws/01001000/json/');
-        // $response = $this->client->get('https://viacep.com.br/ws/01001000/json/');
+        $response = Http::get('http://b72d-200-135-40-16.ngrok.io/companies/all');
+        $data = $response->object();
         
-        return $response;
-        // return view('Consultas.Empresa',compact('response'));
+        return view('Consultas.Empresa',compact('data'));
     }
 
     public function registerEmpresa(Request $request)

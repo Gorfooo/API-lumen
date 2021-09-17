@@ -21,19 +21,25 @@
         <table class="table table-sm">
             <thead>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Id</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Telefone</th>
+                <th scope="col">Cpf</th>
+                <th scope="col">Data</th>
+                <th scope="col">Cnpj</th>
               </tr>
             </thead>
             <tbody>
+              @foreach ($data as $usuario)
               <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                <td>{{$usuario->id}}</td>
+                <td>{{$usuario->nome}}</td>
+                <td>{{$usuario->telefone}}</td>
+                <td>{{$usuario->cpf}}</td>
+                <td>{{$usuario->data}}</td>
+                <td>{{$usuario->cnpj_empresa}}</td>
               </tr>
+              @endforeach
             </tbody>
           </table>
     </div>
