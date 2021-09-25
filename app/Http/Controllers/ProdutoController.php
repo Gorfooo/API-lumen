@@ -43,10 +43,19 @@ class ProdutoController extends Controller
 
     public function showProdutos()
     {
-        $response = Http::get('http://b72d-200-135-40-16.ngrok.io/products/all');
+        // $response = Http::get('https://viacep.com.br/ws/01001000/json/');
+        $response = Http::get('https://jsonplaceholder.typicode.com/todos');        
         $data = $response->object();
+        
+        if(array_key_exists (0,$response->json())){
+            $keys = array_keys((array)$data[0]);
+            $multiple = true;
+        }else{
+            $keys = array_keys((array)$data);
+            $multiple = false;
+        }
 
-        return view('Consultas.Produto',compact('data'));
+        return view('Consultas.Produto',compact('data','keys','multiple'));
     }
 
     public function registerProduto(Request $request)

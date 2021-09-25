@@ -21,25 +21,27 @@
         <table class="table table-sm">
             <thead>
               <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Telefone</th>
-                <th scope="col">Cpf</th>
-                <th scope="col">Data</th>
-                <th scope="col">Cnpj</th>
+                @foreach ($keys as $key)
+                  <th scope="col">{{$key}}</th>
+                @endforeach
               </tr>
             </thead>
             <tbody>
-              @foreach ($data as $usuario)
-              <tr>
-                <td>{{$usuario->id}}</td>
-                <td>{{$usuario->nome}}</td>
-                <td>{{$usuario->telefone}}</td>
-                <td>{{$usuario->cpf}}</td>
-                <td>{{$usuario->data}}</td>
-                <td>{{$usuario->cnpj_empresa}}</td>
-              </tr>
-              @endforeach
+              @if ($multiple == true)
+                @foreach ($data as $usuario)
+                  <tr>
+                    @foreach ($usuario as $u)
+                      <td>{{$u}}</td>
+                    @endforeach
+                  </tr>
+                @endforeach
+              @else
+                <tr>
+                  @foreach ($data as $usuario)
+                    <td>{{$usuario}}</td>
+                  @endforeach
+                </tr>
+              @endif
             </tbody>
           </table>
     </div>

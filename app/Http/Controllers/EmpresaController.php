@@ -34,10 +34,19 @@ class EmpresaController extends Controller
 
     public function showEmpresas()
     {
-        $response = Http::get('http://b72d-200-135-40-16.ngrok.io/companies/all');
+        $response = Http::get('https://viacep.com.br/ws/01001000/json/');
+        // $response = Http::get('https://jsonplaceholder.typicode.com/todos');        
         $data = $response->object();
         
-        return view('Consultas.Empresa',compact('data'));
+        if(array_key_exists (0,$response->json())){
+            $keys = array_keys((array)$data[0]);
+            $multiple = true;
+        }else{
+            $keys = array_keys((array)$data);
+            $multiple = false;
+        }
+
+        return view('Consultas.Empresa',compact('data','keys','multiple'));
     }
 
     public function registerEmpresa(Request $request)
