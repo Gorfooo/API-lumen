@@ -43,7 +43,6 @@ class ProdutoController extends Controller
 
     public function showProdutos()
     {
-        // $response = Http::get('https://viacep.com.br/ws/01001000/json/');
         $response = Http::get('https://jsonplaceholder.typicode.com/todos');        
         $data = $response->object();
         
@@ -60,12 +59,12 @@ class ProdutoController extends Controller
 
     public function registerProduto(Request $request)
     {
-        $data = $request->all();
+        $data = $request::all();
 
         $validator = Validator::make($data, [
             'nome' => 'required|max:255',
             'quanto' => 'required|numeric|between:-999999,999999',
-            'ncm' => 'required|integer|digits_between:0,8',
+            'ncm' => 'required|numeric|digits_between:0,8',
             'usuario_id' => 'required|max:20|exists:usuarios,id',
         ]);
 

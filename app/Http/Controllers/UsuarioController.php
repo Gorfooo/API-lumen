@@ -60,7 +60,7 @@ class UsuarioController extends Controller
 
     public function registerUsuario(Request $request)
     {
-        $data = $request->all();
+        $data = $request::all();
 
         if(!$this->validaCPF($data['cpf'])){
             return response()->json(['error'=>'CPF inválido'],400);

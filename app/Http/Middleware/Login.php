@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
 use App\User;
 
-class Authenticate
+class Login
 {
     /**
      * The authentication guard factory instance.
@@ -36,23 +36,16 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        $token = $request->bearerToken();
+        session_start();
 
         try{
-            $user = User::where('token', $token)->firstOrFail();
+            if($_SESSION["LOGADO"] == true){
+                return $next($request);
+            };
         }catch(\Exception $e){
-            return response()->json(['message' => 'unauthorized'],401);
+            return redirect()->route('adminLogin');
         }
-
-        $user->tokens()->create([
-            'url' => $request->url(),
-            'token' => $token
-        ]);
-
-        // if ($this->auth->guard($guard)->guest()) {
-        //     return response('Unauthorized.', 401);
-        // }
-
-        return $next($request);
+        
+        return redirect()->route('adminLogin');
     }
 }

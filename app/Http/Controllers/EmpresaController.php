@@ -51,7 +51,7 @@ class EmpresaController extends Controller
 
     public function registerEmpresa(Request $request)
     {
-        $data = $request->all();
+        $data = $request::all();
         
         if(!$this->validar_cnpj($data['cnpj'])){
             return response()->json(['error'=>'CNPJ inválido'],400);
