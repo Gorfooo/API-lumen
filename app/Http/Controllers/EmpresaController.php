@@ -35,26 +35,25 @@ class EmpresaController extends Controller
     public function showEmpresas()
     {
         $response = Http::get('https://viacep.com.br/ws/01001000/json/');
-        // $response = Http::get('https://jsonplaceholder.typicode.com/todos');        
         $data = $response->object();
-        
-        if(array_key_exists (0,$response->json())){
+
+        if (array_key_exists(0, $response->json())) {
             $keys = array_keys((array)$data[0]);
             $multiple = true;
-        }else{
+        } else {
             $keys = array_keys((array)$data);
             $multiple = false;
         }
 
-        return view('Consultas.Empresa',compact('data','keys','multiple'));
+        return view('Consultas.Empresa', compact('data', 'keys', 'multiple'));
     }
 
     public function registerEmpresa(Request $request)
     {
         $data = $request::all();
-        
-        if(!$this->validar_cnpj($data['cnpj'])){
-            return response()->json(['error'=>'CNPJ inválido'],400);
+
+        if (!$this->validar_cnpj($data['cnpj'])) {
+            return response()->json(['error' => 'CNPJ inválido'], 400);
         }
 
         $validator = Validator::make($data, [
@@ -62,15 +61,15 @@ class EmpresaController extends Controller
             'telefone' => 'required|max:255',
             'cnpj' => 'required|max:14',
         ]);
-    
+
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()],400);
+            return response()->json(['error' => $validator->errors()], 400);
         }
 
         try {
             Empresa::create($data);
         } catch (Throwable $e) {
-            return response()->json(['error'=>'Erro na inserção'],400);
+            return response()->json(['error' => 'Erro na inserção'], 400);
         }
 
         return response()->json(['success' => 'Empresa cadastrada com sucesso!']);
@@ -79,18 +78,17 @@ class EmpresaController extends Controller
     public function validar_cnpj($cnpj)
     {
         $cnpj = preg_replace('/[^0-9]/', '', (string) $cnpj);
-        
+
         // Valida tamanho
         if (strlen($cnpj) != 14)
             return false;
 
         // Verifica se todos os digitos são iguais
         if (preg_match('/(\d)\1{13}/', $cnpj))
-            return false;	
+            return false;
 
         // Valida primeiro dígito verificador
-        for ($i = 0, $j = 5, $soma = 0; $i < 12; $i++)
-        {
+        for ($i = 0, $j = 5, $soma = 0; $i < 12; $i++) {
             $soma += $cnpj[$i] * $j;
             $j = ($j == 2) ? 9 : $j - 1;
         }
@@ -101,8 +99,7 @@ class EmpresaController extends Controller
             return false;
 
         // Valida segundo dígito verificador
-        for ($i = 0, $j = 6, $soma = 0; $i < 13; $i++)
-        {
+        for ($i = 0, $j = 6, $soma = 0; $i < 13; $i++) {
             $soma += $cnpj[$i] * $j;
             $j = ($j == 2) ? 9 : $j - 1;
         }

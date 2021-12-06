@@ -10,15 +10,17 @@ class AdminController extends Controller
     public function login(Request $request)
     {
         $data = $request->all();
-        
+
         session_start();
-        
-        if($data['username'] == env('ADM_LOGIN') && $data['password'] == env('ADM_PASSWORD')
-        || $_SESSION["LOGADO"] == true){
+
+        if (
+            $data['username'] == env('ADM_LOGIN') && $data['password'] == env('ADM_PASSWORD')
+            || $_SESSION["LOGADO"] == true
+        ) {
             $_SESSION["LOGADO"] = true;
             $users = User::all();
-            return view('Consultas.Admin',compact('users'));
-        }else{
+            return view('Consultas.Admin', compact('users'));
+        } else {
             return response()->json(['response' => 'Unauthorized'], 401);
         };
     }
@@ -41,7 +43,7 @@ class AdminController extends Controller
 
         $user = User::findOrFail($id);
 
-        $user->token = '';
+        $user->token = 'Removido';
         $user->save();
 
         return redirect()->route('adminView');
@@ -50,7 +52,7 @@ class AdminController extends Controller
     public function showView()
     {
         $users = User::all();
-        return view('Consultas.Admin',compact('users'));
+        return view('Consultas.Admin', compact('users'));
     }
 
     public function showLogin()
